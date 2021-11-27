@@ -43,6 +43,17 @@
           "name": "@electron-forge/maker-rpm",
           "config": {}
         }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "azu",
+              "name": "mic-mutebar"
+            }
+          }
+        }
       ]
     }
   },
@@ -56,6 +67,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "electron": "16.0.2",
     "lint-staged": "^12.1.2",
     "prettier": "^2.5.0"
