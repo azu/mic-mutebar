@@ -2,15 +2,9 @@
 
 This app show microphone status as simple bar.
 
-When microphone is muted:
+![mic-mutebar](./docs/img/mic-mutebar.mp4)
 
-![](./docs/img/muted.png)
-
-When microphone is inputing:
-
-![](./docs/img/inputing.png)
-
-This bar can be moved any where.
+This bar can be moved to anywhere.
 
 ## Installation
 
@@ -23,6 +17,16 @@ Additional installation steps on macOS:
 
 1. Select `mic-mutebar.app`
 2. Open context menu and Click "Open"
+
+## Usage
+
+When microphone is muted:
+
+![](./docs/img/muted.png)
+
+When microphone is inputing:
+
+![](./docs/img/inputing.png)
 
 ## Contributing
 
