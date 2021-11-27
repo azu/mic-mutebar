@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MuteBar</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body data-is-muted="false">
+<div id="mutebar">
+    <div id="pidRoot">
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+        <div class="pid"></div>
+    </div>
+</div>
+<script type="module">
+    const body = document.body
+    const pids = Array.from(document.querySelectorAll('.pid'));
+    function colorPids(volume) {
+        const amountOfPids = Math.round(volume / 10);
+        pids.forEach((pid, index) => {
+            if (index < amountOfPids) {
+                pid.style.backgroundColor = "var(--mic-volume-bar-color)"
+            } else {
+                pid.style.backgroundColor = "var(--mic-volume-bar-backGroundColor)";
+            }
+        });
+    }
+
+    const updateMuteBar = ({ isMute: isMuted }) => {
+        body.dataset.isMuted = isMuted;
+    }
+    const start = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const audioTrack = stream.getAudioTracks()[0];
+        audioTrack.addEventListener("mute", () => {
+            updateMuteBar({ isMute: true })
+        });
+        audioTrack.addEventListener("unmute", () => {
+            updateMuteBar({ isMute: false })
+        });
+        updateMuteBar({ isMute: audioTrack.muted })
+        const audioContext = new AudioContext();
+        const analyser = audioContext.createAnalyser();
+        const microphone = audioContext.createMediaStreamSource(stream);
+        const audioNode = audioContext.createScriptProcessor(512, 1, 1);
+        analyser.smoothingTimeConstant = 0.8;
+        analyser.fftSize = 512;
+        microphone.connect(analyser);
+        analyser.connect(audioNode);
+        audioNode.connect(audioContext.destination);
+        audioNode.addEventListener("audioprocess", () => {
+            const frequencyArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(frequencyArray);
+            let values = 0;
+            const lengthOfAnalyser = frequencyArray.length;
+            for (let i = 0; i < lengthOfAnalyser; i++) {
+                values += (frequencyArray[i]);
+            }
+            const average = values / lengthOfAnalyser;
+            console.log(Math.round(average));
+            colorPids(average);
+        });
+    }
+    start();
+</script>
+</body>
+</html>

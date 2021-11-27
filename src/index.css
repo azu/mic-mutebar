@@ -1,0 +1,55 @@
+[hidden] {
+    display: none !important;
+}
+
+:root {
+    --mic-volume-bar-color: #69ce2b;
+    --mic-volume-bar-backGroundColor: #e6e7e8;
+}
+
+html {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: drag;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#mutebar {
+    background-color: transparent;
+    height: 20px;
+    width: 100%;
+}
+
+#pidRoot {
+    width: 100%;
+    display: flex;
+    align-content: space-around;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.pid {
+    width: calc(10% - 10px);
+    height: 10px;
+    display: inline-block;
+    margin: 5px 2px;
+    border-radius: 2px;
+}
+
+[data-is-muted="true"] #mutebar {
+    height: var(--muted-bar-height, 2px);
+    transition: height 0.2s;
+    animation-timing-function: ease-in-out;
+    background-color: #ce2b2bff !important;
+}
+
+[data-is-muted="true"] #pidRoot,
+[data-is-muted="true"] .pid {
+    display: none !important;
+}
