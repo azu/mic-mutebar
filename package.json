@@ -1,8 +1,8 @@
 {
-  "name": "mutebar",
+  "name": "mic-mutebar",
   "productName": "mutebar",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "mic mute status bar",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
