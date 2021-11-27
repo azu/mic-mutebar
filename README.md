@@ -2,7 +2,7 @@
 
 This app show microphone status as simple bar.
 
-![mic-mutebar](./docs/img/mic-mutebar.mp4)
+https://user-images.githubusercontent.com/19714/143683255-60b38e79-803d-4a6a-802c-09d35c3b9f28.mp4
 
 This bar can be moved to anywhere.
 
