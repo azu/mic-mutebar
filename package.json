@@ -28,7 +28,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "mutebar"
+            "name": "mic-mutebar"
           }
         },
         {
