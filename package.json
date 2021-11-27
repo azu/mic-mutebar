@@ -1,7 +1,7 @@
 {
   "name": "mic-mutebar",
   "productName": "mutebar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "mic mute status bar",
   "main": "src/index.js",
   "scripts": {
