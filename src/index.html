@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body data-is-muted="false">
-<div id="mutebar">
+<div id="volumebar">
+    <div id="mutebar"></div>
     <div id="pidRoot">
         <div class="pid"></div>
         <div class="pid"></div>
@@ -21,13 +22,14 @@
     </div>
 </div>
 <script type="module">
-    const body = document.body
-    const pids = Array.from(document.querySelectorAll('.pid'));
+    const body = document.body;
+    const pids = Array.from(document.querySelectorAll(".pid"));
+
     function colorPids(volume) {
         const amountOfPids = Math.round(volume / 10);
         pids.forEach((pid, index) => {
             if (index < amountOfPids) {
-                pid.style.backgroundColor = "var(--mic-volume-bar-color)"
+                pid.style.backgroundColor = "var(--mic-volume-bar-color)";
             } else {
                 pid.style.backgroundColor = "var(--mic-volume-bar-backGroundColor)";
             }
@@ -36,17 +38,22 @@
 
     const updateMuteBar = ({ isMute: isMuted }) => {
         body.dataset.isMuted = isMuted;
-    }
-    const start = async () => {
+    };
+    const listen = async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         const audioTrack = stream.getAudioTracks()[0];
-        audioTrack.addEventListener("mute", () => {
-            updateMuteBar({ isMute: true })
-        });
-        audioTrack.addEventListener("unmute", () => {
-            updateMuteBar({ isMute: false })
-        });
-        updateMuteBar({ isMute: audioTrack.muted })
+        const unMuted = () => {
+            updateMuteBar({ isMute: false });
+        };
+        const muted = () => {
+            updateMuteBar({ isMute: true });
+        };
+        const ended = () => {
+            updateMuteBar({ isMute: audioTrack.muted });
+        };
+        audioTrack.addEventListener("mute", muted);
+        audioTrack.addEventListener("unmute", unMuted);
+        audioTrack.addEventListener("ended", ended);
         const audioContext = new AudioContext();
         const analyser = audioContext.createAnalyser();
         const microphone = audioContext.createMediaStreamSource(stream);
@@ -56,7 +63,7 @@
         microphone.connect(analyser);
         analyser.connect(audioNode);
         audioNode.connect(audioContext.destination);
-        audioNode.addEventListener("audioprocess", () => {
+        const audioprocess = () => {
             const frequencyArray = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(frequencyArray);
             let values = 0;
@@ -66,9 +73,20 @@
             }
             const average = values / lengthOfAnalyser;
             colorPids(average);
-        });
-    }
-    start();
+        };
+        audioNode.addEventListener("audioprocess", audioprocess);
+        updateMuteBar({ isMute: audioTrack.muted });
+        return () => {
+            audioTrack.removeEventListener("mute", muted);
+            audioTrack.removeEventListener("unmute", unMuted);
+            audioTrack.removeEventListener("ended", ended);
+            audioNode.removeEventListener("audioprocess", audioprocess);
+        };
+    };
+    const unlisten = listen();
+    window.addEventListener("unload", () => {
+        unlisten();
+    });
 </script>
 </body>
 </html>

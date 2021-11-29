@@ -22,6 +22,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "icon": "src/assets/images/icon.ico",
         "executableName": "mic-mutebar"
       },
       "makers": [
