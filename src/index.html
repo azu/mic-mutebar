@@ -36,6 +36,19 @@
         });
     }
 
+    const onWakeup = (cb) => {
+        const intervalMs = 2000;
+        let lastTime = (new Date()).getTime();
+        setInterval(function() {
+            const currentTime = (new Date()).getTime();
+            const paddingMs = intervalMs * 2;
+            if (currentTime > (lastTime + paddingMs)) {  // ignore small delays
+                cb();
+            }
+            lastTime = currentTime;
+        }, intervalMs);
+    };
+
     const updateMuteBar = ({ isMute: isMuted }) => {
         body.dataset.isMuted = isMuted;
     };
@@ -86,6 +99,9 @@
     const unlisten = listen();
     window.addEventListener("unload", () => {
         unlisten();
+    });
+    onWakeup(() => {
+        window.location.reload();
     });
 </script>
 </body>

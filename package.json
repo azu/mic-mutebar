@@ -71,9 +71,9 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/publisher-github": "^6.0.0-beta.61",
-    "electron": "16.0.2",
-    "lint-staged": "^12.1.2",
-    "prettier": "^2.5.0"
+    "electron": "16.0.8",
+    "lint-staged": "^12.3.2",
+    "prettier": "^2.5.1"
   },
   "prettier": {
     "singleQuote": false,
