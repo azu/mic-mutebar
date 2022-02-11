@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, powerMonitor } = require("electron");
 const path = require("path");
 const WinState = require("electron-win-state").default;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -20,6 +20,10 @@ const createWindow = () => {
     mainWindow.setPosition(mainWindow.getPosition()[0], 0);
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, "index.html"));
+
+    powerMonitor.on("unlock-screen", () => {
+        mainWindow.webContents.reload();
+    });
 };
 
 // This method will be called when Electron has finished
