@@ -97,7 +97,7 @@
         };
     };
     const unlisten = listen();
-    window.addEventListener("unload", () => {
+    window.addEventListener("beforeunload", () => {
         unlisten();
     });
     onWakeup(() => {

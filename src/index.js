@@ -21,6 +21,9 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, "index.html"));
 
+    mainWindow.on("focus", () => {
+        mainWindow.webContents.reload();
+    });
     powerMonitor.on("unlock-screen", () => {
         mainWindow.webContents.reload();
     });
