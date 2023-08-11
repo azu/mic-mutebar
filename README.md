@@ -28,6 +28,32 @@ When microphone is inputing:
 
 ![](./docs/img/inputing.png)
 
+## Tips
+
+### Toggle mute/unmute
+
+You can toggle mute/unmute by AppleScript.
+
+```applescript
+set micVolume to toggleMic()
+display notification micVolume with title "Mic"
+tell application "mic-mutebar.app" to activate
+return micVolume
+
+on toggleMic()
+	set inputVolume to input volume of (get volume settings)
+	if inputVolume <= 5 then
+		set inputVolume to 100
+		set micVal to "🔈"
+	else
+		set inputVolume to 0
+		set micVal to "🔇"
+	end if
+	set volume input volume inputVolume
+	return micVal
+end toggleMic
+```
+
 ## Contributing
 
 1. Fork it!
